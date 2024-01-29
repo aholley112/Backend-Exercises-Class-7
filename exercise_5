@@ -1,0 +1,29 @@
+rails new forum_api --api
+
+cd forum_api
+
+rails generate model Forum name:string description:text category:string
+
+rails db:migrate
+
+rails generate model Post title:string content:text forum:references
+
+rails db:migrate
+
+class Forum < ApplicationRecord
+  has_many :posts
+  validates :name, :description, :category, presence: true
+end
+
+class Post < ApplicationRecord
+  belongs_to :forum
+  validates :title, :content, presence: true
+end
+
+forum = Forum.create(name: "My Forum", description: "This is my forum", category: "General")
+forum.posts.create(title: "First Post", content: "This is the first post in the forum.")
+forum.posts.create(title: "Second Post", content: "This is the second post in the forum.")
+
+post = Post.create(title: "New Post", content: "Content of the new post", forum: forum)
+
+Forum.first.posts
