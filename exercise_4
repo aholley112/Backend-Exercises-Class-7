@@ -9,3 +9,29 @@ rails db:migrate
 rails generate model Workout name:string date:date duration:integer user:references
 
 rails db:migrate
+
+class User < ApplicationRecord
+    has_many :workouts
+end
+
+class Workout < ApplicationRecord
+  belongs_to :user
+end
+
+class User < ApplicationRecord
+  has_many :workouts
+  validates :name, :email, :password, presence: true
+  validates :email, uniqueness: true
+end
+
+class Workout < ApplicationRecord
+  belongs_to :user
+  validates :name, presence: true, length: { maximum: 50 }
+  validates :date, :duration, presence: true
+  validates :duration, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 240 }
+end
+
+user = User.create(name: "Amanda Feely", email: "amanda@example.com", password: "password123")
+
+user.workouts.create(name: "Jumping Jacks", date: Date.today, duration: 30)
+user.workouts.create(name: "Squats", date: Date.today, duration: 45)
