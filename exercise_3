@@ -1,0 +1,26 @@
+rails generate model Category name:string
+
+rails db:migrate
+
+rails generate migration AddCategoryToProducts category:references
+
+class Product < ApplicationRecord
+    belongs_to :category
+    validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
+    validates :price, numericality: { greater_than: 0 }
+  end
+
+class Category < ApplicationRecord
+    has_many :products
+end
+
+fruits = Category.create(name: "Fruits")
+vegetables = Category.create(name: "Vegetables")
+dairy = Category.create(name: "Dairy")
+
+fruits.products.create(name: "Banana", price: 1.99)
+fruits.products.create(name: "Rasberry", price: 2.99)
+vegetables.products.create(name: "Broccoli", price: 0.99)
+dairy.products.create(name: "Milk", price: 3.50)
+
+fruits_products = Product.where(category: fruits)
