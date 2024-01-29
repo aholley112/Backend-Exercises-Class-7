@@ -1,0 +1,11 @@
+rails new fitness_tracker_api --api
+
+cd fitness_tracker_api
+
+rails generate model User name:string email:string password:string
+
+rails db:migrate
+
+rails generate model Workout name:string date:date duration:integer user:references
+
+rails db:migrate
