@@ -1,0 +1,11 @@
+Exercise 6:
+The previous exercise violates normalization rules because the category is repeated for each product. To fix this, we can create a separate Category model and set up a one-to-many relationship between Category and Product.
+
+Objective: Create a separate Category model and set up a one-to-many relationship between Category and Product.
+
+
+This is what I did in Exercise 3: 
+
+rails generate migration AddCategoryToProducts category:references
+
+Going to talk about this in coaching hours.
